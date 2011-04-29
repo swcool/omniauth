@@ -21,7 +21,7 @@ module OmniAuth
     	  :access_token_url => 'http://api.t.sina.com.cn/oauth/access_token',
           :authenticate_url => 'http://api.t.sina.com.cn/oauth/authenticate',
           :authorize_url    => 'http://api.t.sina.com.cn/oauth/authorize',
-          :request_token_url=> 'http://api.t.sina.com.cn/oauth/request_token'
+          :request_token_url => 'http://api.t.sina.com.cn/oauth/request_token'
         }
 
         client_options[:authorize_path] = '/oauth/authorize' unless options[:sign_in] == false
