@@ -9,7 +9,7 @@ module OmniAuth
     #
     # Usage:
     #
-    #    use OmniAuth::Strategies::weibo, 'APIKey', 'APIKeySecret'
+    #    use OmniAuth::Strategies::Weibo, 'APIKey', 'APIKeySecret'
     #
     class Weibo < OmniAuth::Strategies::OAuth
 
@@ -49,7 +49,7 @@ module OmniAuth
         }
       end
 
-      # MonkeyPatch session['oauth']['weiboWeibo']['callback_confirmed'] to true
+      # MonkeyPatch session['oauth']['weibo']['callback_confirmed'] to true
       def request_phase
         request_token = consumer.get_request_token(:oauth_callback => callback_url)
         session['oauth'] ||= {}
