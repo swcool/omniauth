@@ -20,8 +20,8 @@ module OmniAuth
           :site => 'https://api.t.sina.com.cn'
         }
 
-        options[:authorize_params] = {:force_login => 'true'} if options.delete(:force_login) == true
-        client_options[:authorize_path] = '/oauth/authenticate' unless options[:sign_in] == false
+   #     options[:authorize_params] = {:force_login => 'true'} if options.delete(:force_login) == true
+        client_options[:authorize_path] = '/oauth/authorize' unless options[:sign_in] == false
         super(app, :weibo, consumer_key, consumer_secret, client_options, options)
       end
 
