@@ -42,11 +42,11 @@ module OmniAuth
 
         {
           
-	  'screenName' => user_hash['screen_name'],
+	  'username' => user_hash['screen_name'],
 	  'name' => user_hash['name'],    
           'location' => user_hash['location'],
           'description' => user_hash['description'],
-          'profileImageUrl' => user_hash['profileImageUrl'],
+          'image' => user_hash['profile_image_url'],
           'urls' => {
 		'Weibo' => user_hash['url']
 	   }
