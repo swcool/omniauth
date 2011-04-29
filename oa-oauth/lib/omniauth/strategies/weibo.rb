@@ -17,7 +17,11 @@ module OmniAuth
       # @option options [Boolean, true] :sign_in When true, use the "Sign in with Twitter" flow instead of the authorization flow.
       def initialize(app, consumer_key = nil, consumer_secret = nil, options = {}, &block)
         client_options = {
-          :site => 'http://api.t.sina.com.cn'
+          :site => 'http://api.t.sina.com.cn',
+    	  :access_token_url => 'http://api.t.sina.com.cn/oauth/access_token',
+          :authenticate_url => 'http://api.t.sina.com.cn/oauth/authenticate',
+          :authorize_url    => 'http://api.t.sina.com.cn/oauth/authorize',
+          :request_token_url=> 'http://api.t.sina.com.cn/oauth/request_token'
         }
 
         client_options[:authorize_path] = '/oauth/authorize' unless options[:sign_in] == false
