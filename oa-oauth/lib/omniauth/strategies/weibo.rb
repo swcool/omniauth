@@ -16,15 +16,16 @@ module OmniAuth
       #
       # @option options [Boolean, true] :sign_in When true, use the "Sign in with Twitter" flow instead of the authorization flow.
       def initialize(app, consumer_key = nil, consumer_secret = nil, options = {}, &block)
+        @api_key = consumer_key
+
         client_options = {
-          :site => 'http://api.t.sina.com.cn',
-    	  :access_token_url => 'http://api.t.sina.com.cn/oauth/access_token',
-          :authenticate_url => 'http://api.t.sina.com.cn/oauth/authenticate',
-          :authorize_url    => 'http://api.t.sina.com.cn/oauth/authorize',
-          :request_token_url => 'http://api.t.sina.com.cn/oauth/request_token'
+          :site 		=> 'http://api.t.sina.com.cn',
+	  :request_token_path 	=> '/oauth/request_token',
+    	  :access_token_path 	=> '/oauth/access_token',
+          :authorize_path    	=> '/oauth/authorize',
+          :realm         	=> 'OmniAuth'
         }
 
-        client_options[:authorize_path] = '/oauth/authorize' unless options[:sign_in] == false
         super(app, :weibo, consumer_key, consumer_secret, client_options, options)
       end
 
@@ -40,17 +41,39 @@ module OmniAuth
         user_hash = self.user_hash
 
         {
-          'name' => user_hash['name'],  
-		  'screenName' => user_hash['screen_name'],
+          
+	  'screenName' => user_hash['screen_name'],
+	  'name' => user_hash['name'],    
           'location' => user_hash['location'],
           'description' => user_hash['description'],
           'profileImageUrl' => user_hash['profileImageUrl'],
-          'url' => user_hash['url']
+          'urls' => {
+		'Weibo' => user_hash['url']
+	   }
         }
       end
 
+      # MonkeyPatch session['oath']['weibo']['callback_confirmed'] to true
+      def request_phase
+        request_token = consumer.get_request_token(:oauth_callback => callback_url)
+        session['oauth'] ||= {}
+        session['oauth'][name.to_s] = {'callback_confirmed' => true, 'request_token' => request_token.token, 'request_secret' => request_token.secret}
+        r = Rack::Response.new
+
+        if request_token.callback_confirmed?
+          r.redirect(request_token.authorize_url)
+        else
+          r.redirect(request_token.authorize_url(:oauth_callback => callback_url))
+        end
+
+        r.finish
+      rescue ::Timeout::Error => e
+        fail!(:timeout, e)
+      end
+
       def user_hash
-        @user_hash ||= MultiJson.decode(@access_token.get('/1/account/verify_credentials.json').body)
+        uid = @access_token.params[:user_id]
+        @user_hash ||= MultiJson.decode(@access_token.get("http://api.t.sina.com.cn/users/show/#{uid}.json?source=#{@api_key}").body)
       end
     end
   end
