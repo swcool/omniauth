@@ -26,7 +26,7 @@ module OmniAuth
           :realm         	=> 'OmniAuth'
         }
 
-        super(app, :weibo, consumer_key, consumer_secret, client_options, options)
+        super(app, :weibo, consumer_key, consumer_secret, client_options, options, &block)
       end
 
       def auth_hash
