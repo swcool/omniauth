@@ -28,6 +28,7 @@ module OmniAuth
       end
 
       def auth_hash
+        raise @access_token.inspect
         OmniAuth::Utils.deep_merge(super, {
           'uid' => @access_token.params[:user_id],
           'user_info' => user_info,
