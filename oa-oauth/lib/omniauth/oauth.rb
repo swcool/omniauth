@@ -46,6 +46,7 @@ module OmniAuth
     autoload :TypePad,            'omniauth/strategies/type_pad'
     autoload :Vimeo,              'omniauth/strategies/vimeo'
     autoload :Vkontakte,          'omniauth/strategies/vkontakte'
+    autoload :Wwitter,            'omniauth/strategies/wwitter'
     autoload :Weibo,              'omniauth/strategies/weibo'
     autoload :Yahoo,              'omniauth/strategies/yahoo'
     autoload :Yammer,             'omniauth/strategies/yammer'
