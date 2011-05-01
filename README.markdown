@@ -7,7 +7,7 @@ OmniAuth is a new Rack-based authentication system for multi-provider external a
 
 ## Installation
 
-To install OmniAuth, simply install the gem:
+To install OmniAuth, simply install the gem :
 
     gem install omniauth
 
